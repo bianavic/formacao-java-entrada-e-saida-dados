@@ -1,8 +1,9 @@
 package org.edu.fabs.io.IOBytes.IOData;
 
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -44,11 +45,41 @@ Crie um arquivo “roupa.bin” e armazene:
         double preco = scanner.nextDouble(); // captura o double para a variavel
         dos.writeDouble(preco); // escrever, persistir o double capturado no doc
 
+        ps.printf("O arquivo %s foi criado com %d bytes no diretório '%s'.\n",
+                f.getName(), f.length(), f.getAbsolutePath());
+
+        lerProduto(f.getPath());
+
         dos.close();
         scanner.close();
+        ps.close();
     }
 
-    public static void lerProduto(String arquivo) {}
+    public static void lerProduto(String caminhoArquivo) throws IOException {
+        File f = new File(caminhoArquivo);
+
+        // abrir o arquivo
+/*        InputStream is = new FileInputStream(f.getPath());
+        DataInputStream dis = new DataInputStream(is);*/
+        DataInputStream dis = new DataInputStream(new FileInputStream(f.getPath()));
+
+        // colocar na ordem e com o tipo correspondente
+        // ler usando os metodos
+        String nome = dis.readUTF();
+        char tamanho = dis.readChar();
+        int quantidade = dis.readInt();
+        double preco = dis.readDouble();
+
+        // ler linha por linha
+        // LEITURA do ARQUIVO .BIN pelo console
+        System.out.printf("\nNome..................: %s\n", nome);
+        System.out.printf("Quantidade............: %d\n", quantidade);
+        System.out.printf("Tamanho...............: %s\n", tamanho);
+        System.out.printf("Preço.................: %f\n", preco);
+        System.out.println("total do valor das peças: " + quantidade * preco);
+
+        dis.close();
+    }
 
 
     public static void main(String[] args) throws IOException {
