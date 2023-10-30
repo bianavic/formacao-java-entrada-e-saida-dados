@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 public class Exercicio3IOCharacter {
 
@@ -45,10 +47,40 @@ public class Exercicio3IOCharacter {
             line = br.readLine();
             bw.flush();
         } while (!(line == null));
+
+        System.out.printf("arquivo \"%s\" copiado com sucesso! com o tamanho '%d' bytes\n", f.getName(), f.length());
+        System.out.printf("arquivo \"%s\" criado com sucesso! com o tamanho '%d' bytes\n", fcopy.getName(), fcopy.length());
+
+        PrintWriter pw = new PrintWriter(System.out);
+        pw.println("recomende 3 livros: ");
+        pw.flush();
+
+        // o arquivo onde adicionarei as novas infos
+        adicionarInfoNoArquivo(fcopy.getName());
+
+        pw.printf("Ok! Tudo certo. Tamanho do arquivo %d bytes", fcopy.length());
         br.close();
         bw.close();
-        System.out.printf("arquivo \"%s\" copiado com sucesso! com o tamanho '%d' bytes\n", f.getName(), f.length());
-        System.out.printf("arquivo \"%s\" criado com sucesso! com o tamanho '%d' bytes", fcopy.getName(), fcopy.length());
+        pw.close();
+    }
+
+    public static void adicionarInfoNoArquivo(String arquivo) throws IOException {
+        // teclado aberto
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+
+        // escrever no arquivo -> OBS: a necessidade do true é para que nao haja a sobrescrita, mas que seja adicionadas novas infos no final do arquivo
+        BufferedWriter bw = new BufferedWriter(new FileWriter(arquivo, true));
+
+        // laco
+        do {
+            bw.write(line);
+            bw.newLine();
+            line = br.readLine();
+        } while ((!line.equalsIgnoreCase("fim")));
+
+        br.close();
+        bw.close();
     }
 
     public static void main(String[] args) throws IOException {
