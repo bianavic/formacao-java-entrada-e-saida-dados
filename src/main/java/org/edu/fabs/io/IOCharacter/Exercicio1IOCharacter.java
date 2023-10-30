@@ -21,7 +21,7 @@ public class Exercicio1IOCharacter {
         BufferedReader br = new BufferedReader(isr);*/
 
         System.out.println("recomende 3 filmes");
-        // padrao decorator
+        // PADRAO DECORATOR
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         String line = br.readLine();
